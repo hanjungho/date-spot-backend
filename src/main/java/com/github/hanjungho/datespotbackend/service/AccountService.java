@@ -16,7 +16,6 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JWTUtil jwtUtil;
 
     public void join(UserRequestDTO userRequestDTO) {
 
@@ -35,15 +34,5 @@ public class AccountService {
         account.setRole("USER");
 
         accountRepository.save(account);
-    }
-
-    public AuthTokenDTO login(UserRequestDTO userRequestDTO) throws BadRequestException {
-        if (userRequestDTO.username().isEmpty() || userRequestDTO.password().isEmpty()) {
-            throw new BadRequestException("잘못된 입력!");
-        }
-        String username = userRequestDTO.username();
-
-        String token = jwtUtil.createJwt(username, "USER");
-        return new AuthTokenDTO(token);
     }
 }
