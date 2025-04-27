@@ -1,5 +1,6 @@
 package com.github.hanjungho.datespotbackend.config;
 
+import com.github.hanjungho.datespotbackend.jwt.JWTFilter;
 import com.github.hanjungho.datespotbackend.jwt.JWTUtil;
 import com.github.hanjungho.datespotbackend.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
@@ -42,10 +43,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                                             .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/auth/**").permitAll()
                                             .requestMatchers("/admin").hasRole("ADMIN")
+                                            .requestMatchers("/user").hasRole("USER")
                                             .anyRequest().authenticated())
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement((session) -> session
-                                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
