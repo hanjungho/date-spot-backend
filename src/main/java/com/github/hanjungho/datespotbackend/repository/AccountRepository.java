@@ -9,5 +9,5 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
     boolean existsByUsername(String username);
 
-    AccountEntity findByUsername(String username);
+    AccountEntity findByUsernameOAuth2(String usernameOAuth2);
 }

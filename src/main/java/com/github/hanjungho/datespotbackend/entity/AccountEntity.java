@@ -13,12 +13,21 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String username;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
-    @Column(nullable = false)
-    private String role = "USER";
+    @Column
+    private String role;
+
+    @Column
+    private String emailOAuth2;
+
+    @Column
+    private String usernameOAuth2;
+
+    @Column
+    private String nameOAuth2;
 }

@@ -22,7 +22,7 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String authorization = request.getHeader("Authorization");
+        String authorization= request.getHeader("Authorization");
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
 
@@ -30,6 +30,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
             return;
         }
+
 
         String token = authorization.split(" ")[1];
 
@@ -45,12 +46,13 @@ public class JWTFilter extends OncePerRequestFilter {
 
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setUsername(username);
-        accountEntity.setPassword("tempPassword");
+        accountEntity.setPassword("temppassword");
         accountEntity.setRole(role);
 
         CustomUserDetails customUserDetails = new CustomUserDetails(accountEntity);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);

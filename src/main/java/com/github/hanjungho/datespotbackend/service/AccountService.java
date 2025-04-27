@@ -31,7 +31,7 @@ public class AccountService {
         AccountEntity account = new AccountEntity();
         account.setUsername(username);
         account.setPassword(bCryptPasswordEncoder.encode(password));
-        account.setRole("USER");
+        account.setRole("ROLE_USER");
 
         accountRepository.save(account);
     }
